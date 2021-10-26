@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  //lombok parametresiz constructor
 @Table(name="categories") //veri tabanıyla ilişkilendiriyoruz
 @Entity //bunun bir veritabanı tablosu olduğunu belirtiyoruz
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","products"}) //sonsuz sorguyu engelliyor sadece parametre olarak verdiğimiz sonucu getiriyor
 public class Category {
 	
 	@Id
@@ -26,6 +29,7 @@ public class Category {
 	@Column(name="category_name")
 	private String categoryName;
 	
-	@OneToMany(mappedBy = "categories") //bir kategoride birden çok ürün ilişkisi
+	//ORM ile nesnelerimizi veri tabanıyla ilişkilendirdik
+	@OneToMany(mappedBy = "category") //bir kategoride birden çok ürün ilişkisi
 	private List<Product> products;
 }

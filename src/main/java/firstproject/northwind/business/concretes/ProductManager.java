@@ -3,6 +3,9 @@ package firstproject.northwind.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import firstproject.northwind.business.abstracts.ProductService;
@@ -51,19 +54,19 @@ public class ProductManager implements ProductService{
 		//business codes kısmı iş kuralları buraya yazılacak
 		
 		return new SucccessDataResult<Product>(
-				this.productDao.getByProductNameAndCategoryId(productName,categoryId),"Data Listelendi");
+				this.productDao.getByProductNameAndCategory_CategoryId(productName,categoryId),"Data Listelendi");
 	}
 
 	@Override
 	public DataResult<List<Product>> getByProductNameOrCategoryId(String productName, int categoryId) {
 		return new SucccessDataResult<List<Product>>(
-				this.productDao.getByProductNameOrCategoryId(productName,categoryId),"Data Listelendi");
+				this.productDao.getByProductNameOrCategory_CategoryId(productName,categoryId),"Data Listelendi");
 	}
 
 	@Override
 	public DataResult<List<Product>> getByCategoryIdIn(List<Integer> categories) {
 		return new SucccessDataResult<List<Product>>(
-				this.productDao.getByCategoryIdIn(categories),"Data Listelendi");
+				this.productDao.getByCategory_CategoryIdIn(categories),"Data Listelendi");
 	}
 
 	@Override
@@ -79,9 +82,24 @@ public class ProductManager implements ProductService{
 	}
 
 	@Override
-	public DataResult<List<Product>> getByNameAndCategory(String productName, int categoryId) {
+	public DataResult<List<Product>> getByNameAndCategoryId(String productName, int categoryId) {
 		return new SucccessDataResult<List<Product>>(
-				this.productDao.getByNameAndCategory(productName,categoryId),"Data Listelendi");
+				this.productDao.getByNameAndCategory_CategoryId(productName,categoryId),"Data Listelendi");
+	}
+
+	@Override
+	public DataResult<List<Product>> getAll(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		
+		return new SucccessDataResult<List<Product>>
+		(this.productDao.findAll(pageable).getContent());
+	}
+
+	@Override
+	public DataResult<List<Product>> getAllSorted() {
+		Sort sort = Sort.by(Sort.Direction.DESC,"productName");
+		return new SucccessDataResult<List<Product>>
+		(this.productDao.findAll(sort),"Başarılı");
 	}
 
 }
