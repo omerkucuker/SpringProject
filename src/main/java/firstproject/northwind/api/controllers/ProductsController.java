@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import firstproject.northwind.business.abstracts.ProductService;
 import firstproject.northwind.core.utilities.results.DataResult;
 import firstproject.northwind.entities.concretes.Product;
+import firstproject.northwind.entities.dtos.ProductWithCategoryDto;
 import firstproject.northwind.core.utilities.results.Result;
-import firstproject.northwind.core.utilities.results.SucccessDataResult;
 
 @RestController
 @RequestMapping("/api/products")
@@ -63,6 +63,11 @@ public class ProductsController {
 	@GetMapping("/getAllDesc")
 	public DataResult<List<Product>> getAllSorted() {
 		return this.productService.getAllSorted();
+	}
+	
+	@GetMapping("/getProductWithCategoryDetails")
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails() {
+		return this.productService.getProductWithCategoryDetails();
 	}
 
 

@@ -15,6 +15,7 @@ import firstproject.northwind.core.utilities.results.SucccessDataResult;
 import firstproject.northwind.core.utilities.results.SuccessResult;
 import firstproject.northwind.dataAccess.abstracts.ProductDao;
 import firstproject.northwind.entities.concretes.Product;
+import firstproject.northwind.entities.dtos.ProductWithCategoryDto;
 
 
 @Service
@@ -100,6 +101,12 @@ public class ProductManager implements ProductService{
 		Sort sort = Sort.by(Sort.Direction.DESC,"productName");
 		return new SucccessDataResult<List<Product>>
 		(this.productDao.findAll(sort),"Başarılı");
+	}
+
+	@Override
+	public DataResult<List<ProductWithCategoryDto>> getProductWithCategoryDetails() {
+		return new SucccessDataResult<List<ProductWithCategoryDto>>(
+				this.productDao.getProductWithCategoryDetails(),"Data Listelendi");
 	}
 
 }
